@@ -57,9 +57,7 @@ Configure EC2 instances
 -----------------------
 
     ansible-playbook -i inventory/ec2.py playbooks/site.yml
-
     <or>
-
     ansible-playbook -i inventory/ec2.py playbooks/gogs.yml
 
 
