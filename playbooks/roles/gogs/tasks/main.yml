@@ -1,0 +1,45 @@
+---
+
+- name: 'Install tools'
+  apt: pkg={{ item }} state=latest
+  with_items:
+    - git
+    - unzip
+
+- name: 'Create git group'
+  group: name=git state=present
+
+- name: 'Create git user'
+  user: name=git group=git
+
+- name: 'Download Gogs'
+  get_url: url=https://github.com/gogits/gogs/releases/download/v0.6.15/linux_amd64.zip dest=/tmp/
+
+- name: 'Unarchive Gogs'
+  unarchive: src=/tmp/linux_amd64.zip dest=~/ copy=no
+  sudo: yes
+  sudo_user: git
+
+- name: "Create custom conf directory"
+  file: path=/home/git/gogs/custom/conf state=directory mode=0755
+  sudo: yes
+  sudo_user: git
+
+- name: Configure Gogs
+  template:
+    src=app.ini.j2
+    dest=/home/git/gogs/custom/conf/app.ini
+    owner=git
+    group=git
+    mode=0644
+
+- name: Configure Gogs service
+  template:
+    src=gogs.service.j2
+    dest=/etc/systemd/system/gogs.service
+    owner=root
+    group=root
+    mode=0644
+
+- name: 'Enable Gogs service'
+  service: name=gogs state=started enabled=yes

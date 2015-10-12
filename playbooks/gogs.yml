@@ -1,0 +1,9 @@
+# playbook for gogs
+
+- hosts: "{{lookup('env','CLIENT')}}_{{lookup('env','ENV')}}_gogs"
+  user: admin
+  sudo: yes
+
+  roles:
+    - common
+    - gogs

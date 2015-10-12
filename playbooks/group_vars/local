@@ -1,0 +1,18 @@
+keypair: "{{ lookup('env','PEM_NAME') }}"
+
+amazon:
+  client: "{{client}}"
+  env: "{{env}}"
+  vpc:
+    id: "{{vpc_id}}"
+    subnet: "{{subnet_id}}"
+  instances:
+    gogs:
+      ami: ami-99f39eee
+      type: t2.micro
+      count: 1
+      role: gogs
+      security_group:
+        rules:
+          - { proto: tcp, from_port: 22, to_port: 22, cidr_ip: 0.0.0.0/0 }
+          - { proto: tcp, from_port: 3000, to_port: 3000, cidr_ip: 0.0.0.0/0 }

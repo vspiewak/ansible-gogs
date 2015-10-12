@@ -1,0 +1,6 @@
+client: "{{ lookup('env','CLIENT') }}"
+env: "{{ lookup('env','ENV') }}"
+vpc_id: "{{ lookup('env','VPC_ID') }}"
+subnet_id: "{{ lookup('env','SUBNET_ID') }}"
+
+timezone: "Europe/Paris"
